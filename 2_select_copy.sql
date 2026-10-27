@@ -1,17 +1,29 @@
 SET PAGESIZE 1500
 
-SELECT * FROM ansokningsomgang25
-
 DESC system.ansokningsomgang25;
 
-SELECT 
+SELECT
     utbildningsomrade,
-    diarenummer COUNT(*) AS number_rows
-FROM ansokningsomgang25;
+    COUNT(*) AS antal
+FROM ansokningsomgang25
+GROUP BY utbildningsomrade
+ORDER BY antal DESC;
 
--- SELECT
---     COUNT(DISTINCT utbildningsomrade) AS number_utbildningsomraden
--- FROM ansokningsomgang25;
+SELECT
+    utbildningsomrade,
+    COUNT(*) AS antal
+FROM ansokningsomgang25
+WHERE beslut = 'Beviljad'
+GROUP BY utbildningsomrade
+ORDER BY antal DESC;
+
+SELECT
+    utbildningsomrade,
+    COUNT(*) AS antal
+FROM ansokningsomgang25
+WHERE beslut = 'Avslag'
+GROUP BY utbildningsomrade
+ORDER BY antal DESC;
 
 
 EXIT
