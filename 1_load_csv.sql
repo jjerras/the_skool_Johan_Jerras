@@ -1,4 +1,4 @@
-SET LOAD SCAN_ROWS 50000
+SET LOAD
 LOAD ansokningsomgang25 ansokningsomgang25.csv
 
 EXIT
