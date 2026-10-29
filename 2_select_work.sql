@@ -5,14 +5,20 @@ DESC system.ansokningsomgang25;
 -- i. Antal utbildningar som innehåller ordet AI
 
 
-SELECT
-    utbildningsnamn,
-    COUNT(*) AS antal_med_ai
+SELECT DISTINCT 
+    utbildningsnamn
 FROM ansokningsomgang25
 WHERE LOWER(utbildningsnamn) LIKE '% ai %'
-OR LOWER(utbildningsnamn) LIKE '% -ai %'
+OR LOWER(utbildningsnamn) LIKE '% ai'
 OR LOWER(utbildningsnamn) LIKE 'ai %'
-;
+OR LOWER(utbildningsnamn) LIKE '% ai-%'
+OR LOWER(utbildningsnamn) LIKE '%-ai%'
+OR LOWER(utbildningsnamn) LIKE '% ai/%'
+ORDER BY utbildningsnamn;
 
+SELECT DISTINCT utbildningsnamn
+FROM ansokningsomgang25
+WHERE LOWER(utbildningsnamn) LIKE '%ai%'
+ORDER BY utbildningsnamn;
 
 EXIT
