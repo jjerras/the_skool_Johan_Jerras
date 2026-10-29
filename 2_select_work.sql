@@ -2,23 +2,17 @@ SET PAGESIZE 1500
 
 DESC system.ansokningsomgang25;
 
--- h. Andel distans och andel bundna utbildningar inom respektive utbildingsområde
+-- i. Antal utbildningar som innehåller ordet AI
 
-SELECT DISTINCT studieform
-FROM ansokningsomgang25;
 
 SELECT
-    utbildningsomrade,
-    COUNT(*) AS totalt_antal  
+    utbildningsnamn,
+    COUNT(*) AS antal_med_ai
 FROM ansokningsomgang25
-GROUP BY utbildningsomrade;
-
-SELECT
-    utbildningsomrade,
-    COUNT(*) AS totalt_antal,
-    SUM(CASE WHEN studieform = 'Distans' THEN 1 ELSE 0 END) AS Distans
-FROM ansokningsomgang25
-GROUP BY utbildningsomrade;
+WHERE LOWER(utbildningsnamn) LIKE '% ai %'
+OR LOWER(utbildningsnamn) LIKE '% -ai %'
+OR LOWER(utbildningsnamn) LIKE 'ai %'
+;
 
 
 EXIT
