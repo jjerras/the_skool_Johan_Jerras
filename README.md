@@ -10,9 +10,12 @@
 
 ## Förberedelse av tabeller
 ### Jag väljer att skapa mina egna tabeller i "0_create_tables.sql" för att ha bättre kontroll över datan och hur den presenteras.
-
-
-
+### Jag väljer att använda det unika "diarienummer" som Primary Key istället för att skapa en ny.
 
 ## Behandling av data
-    TRIM(utbildningsnamn)
+    ### Datan är hämtad från: https://www.myh.se/yrkeshogskolan/resultat-ansokningsomgangar/resultat-for-program
+    ### Den råa datafilen är: resultat-ansokningsomgang-2025.csv
+    ### Den bearbetade datafilen är: ansokningsomgang25.csv
+    ### Jag behandlar datan bland annat genom TRIM(utbildningsnamn).
+    ### Jag tar bort "åäö" ur de kolumner som innehåller dessa.
+    ### Jag tar bort de 6 första raderna som innehåller annat än data.
