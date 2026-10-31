@@ -9,10 +9,10 @@ dist/
 .gitattributes
 .vscode
 .DS_Store
+.env
 # development
 .idea
 .local
-.codex
 .aider*
 .ocaider.tags.cache.v4/
 docs/trafficmanager/oca/
