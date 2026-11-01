@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS ansokningsomgang25 (
     seqf_niva NUMBER(1),
     smalt_yrkesomrade VARCHAR2(3) NOT NULL,
     utbildningsanordnare VARCHAR2(120) NOT NULL,
-    huvudmannatyp VARCHAR(15) NOT NULL,
+    huvudmannatyp VARCHAR2(15) NOT NULL,
     sokta_omgangar NUMBER(2) NOT NULL,
     beviljade_omgangar NUMBER(2) NOT NULL,
     sokta_platser_per_omgang NUMBER(4) NOT NULL,

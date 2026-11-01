@@ -1,19 +1,29 @@
-operator.tgz
-cover.out
-bin
-bin/*
-testbin/*
-onpremtest/*
-ords/*zip
-dist/
-.gitattributes
-.vscode
-.DS_Store
+# Hemligheter och lokal konfiguration
 .env
-# development
-.idea
-.local
-.aider*
-.ocaider.tags.cache.v4/
-docs/trafficmanager/oca/
-2_select_work.sql
+.env.*
+!.env.example
+
+# Editor: vim
+*.swp
+*.swo
+*~
+.*.un~
+Session.vim
+.netrwhist
+
+# Editor: VS Code / JetBrains
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Oracle / SQLcl / SQL*Loader
+*.log
+*.bad
+*.dsc
+*.lst
+
+# Egna arbetsfiler
+2_select_workspace.sql
