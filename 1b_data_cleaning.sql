@@ -34,7 +34,6 @@ INSERT INTO namn_mappning (variant, kanoniskt_namn) VALUES ('Utvecklare inom AI 
 INSERT INTO namn_mappning (variant, kanoniskt_namn) VALUES ('Utvecklare inom AI och Maskininlärning',      'Utvecklare inom AI och maskininlärning');
 INSERT INTO namn_mappning (variant, kanoniskt_namn) VALUES ('UX Designer',                                 'UX-designer');
 
-
 UPDATE ansokningsomgang25 a
 SET utbildningsnamn_norm = COALESCE(
     (SELECT m.kanoniskt_namn
@@ -44,5 +43,6 @@ SET utbildningsnamn_norm = COALESCE(
 );
 
 COMMIT;
+
 
 EXIT

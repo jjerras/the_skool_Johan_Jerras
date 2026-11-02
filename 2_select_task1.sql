@@ -29,26 +29,6 @@ GROUP BY utbildningsomrade
 ORDER BY antal_avslag DESC;
 
 -- d. Antal BEVILJADE ansökningar per utbildningsnamn inom Data/IT
-WITH utbildningsnamn_ihop AS (
-SELECT
-    TRIM(UPPER(utbildningsnamn)) AS utbildningsnamn_fixad,
-    CASE WHEN utbildningsnamn_fixad LIKE 'FRONT END DEVELOPER' THEN 'FRONTEND DEVELOPER'
-    WHEN utbildningsnamn_fixad LIKE 'FRONTEND-UTVECKLARE' THEN 'FRONTEND DEVELOPER'
-    WHEN utbildningsnamn_fixad LIKE 'FULLSTACKUTVECKLARE - JAVASCRIPT' THEN 'FULLSTACKUTVECKLARE JAVASCRIPT'
-    WHEN utbildningsnamn_fixad LIKE 'UTVECKLARE INOM AI OCH MASKININLÄRNING' THEN 'UTVECKLARE INOM AI & MASKININLÄRNING'
-    ELSE utbildningsnamn
-    END AS utbildningsnamn_fixad
-FROM ansokningsomgang25
-WHERE utbildningsomrade = 'Data/IT' AND beslut = 'Beviljad'
-)
-SELECT
-    utbildningsnamn_fixad,
-    COUNT(*) AS antal_beviljade
-FROM utbildningsnamn_ihop
-GROUP BY utbildningsnamn_fixad
-ORDER BY antal_beviljade DESC;
-
--- d. Antal BEVILJADE ansökningar per utbildningsnamn inom Data/IT
 SELECT
     utbildningsnamn_norm AS utbildningsnamn,
     COUNT(*) AS antal_beviljade
@@ -66,24 +46,14 @@ WHERE utbildningsomrade = 'Data/IT' AND beslut = 'Avslag'
 GROUP BY utbildningsnamn_norm
 ORDER BY antal_avslag DESC, utbildningsnamn;
 
--- f. 
--- Antal BEVILJADE ansökningar per utbildningsanordnare, inom Data/IT.
-WITH utbildningsanordnare_ihop AS (
+-- f. Antal BEVILJADE ansökningar per utbildningsanordnare (administrativ enhet), inom Data/IT
 SELECT
     utbildningsanordnare,
-    CASE WHEN utbildningsanordnare LIKE 'EC Utbildning%' THEN 'EC Utbildning AB'
-    WHEN utbildningsanordnare LIKE 'IT-Högskolan%' THEN 'IT-Högskolan AB'
-    ELSE utbildningsanordnare
-    END AS utbildningsanordnare_fixad
-FROM ansokningsomgang25
-WHERE beslut = 'Beviljad' AND utbildningsomrade = 'Data/IT'
-)
-SELECT
-    utbildningsanordnare_fixad,
     COUNT(*) AS antal_beviljade
-FROM utbildningsanordnare_ihop
-GROUP BY utbildningsanordnare_fixad
-ORDER BY antal_beviljade DESC;
+FROM ansokningsomgang25
+WHERE utbildningsomrade = 'Data/IT' AND beslut = 'Beviljad'
+GROUP BY utbildningsanordnare
+ORDER BY antal_beviljade DESC, utbildningsanordnare;
 
 -- Antal BEVILJADE ansökningar per utbildningsnamn, inom Data/IT
 
@@ -107,7 +77,7 @@ SELECT
 FROM ansokningsomgang25
 WHERE beslut = 'Beviljad' AND lan != 'Flera kommuner'
 GROUP BY lan
-ORDER BY antal_beviljade DESC
+ORDER BY antal_beviljade DESC, lan
 FETCH FIRST 5 ROWS WITH TIES;
 
 -- h. Andel distans och andel bundna utbildningar inom respektive utbildingsområde.
