@@ -56,17 +56,12 @@ GROUP BY utbildningsanordnare
 ORDER BY antal_beviljade DESC, utbildningsanordnare;
 
 -- Antal BEVILJADE ansökningar per utbildningsnamn, inom Data/IT
-WITH rensad AS (
 SELECT
-    TRIM(REPLACE(UPPER(utbildningsnamn), '-', ' ')) AS utbildning_namn
+    utbildningsnamn_norm AS utbildningsnamn,
+    COUNT(*) AS antal_beviljade
 FROM ansokningsomgang25
 WHERE utbildningsomrade = 'Data/IT' AND beslut = 'Beviljad'
-)
-SELECT
-    utbildning_namn,
-    COUNT(*) AS antal_beviljade
-FROM rensad
-GROUP BY utbildning_namn    
+GROUP BY utbildningsnamn_norm    
 ORDER BY antal_beviljade DESC;
 
 -- Kombinerad lista över antal beviljade ansökningar per utbildningsanordnare och utbildningsnamn, inom Data/IT
@@ -80,8 +75,6 @@ WHERE utbildningsomrade = 'Data/IT' AND beslut = 'Beviljad'
 GROUP BY utbildningsanordnare, utbildningsnamn_norm
 ORDER BY antal_beviljade_totalt DESC, utbildningsanordnare, antal_beviljade DESC, utbildningsnamn;
 
-SELECT COUNT(*) FROM ansokningsomgang25 WHERE lan = 'Flera kommuner';
-
 -- g. Topp 5 län efter antal beviljade ansökningar
 SELECT
     lan,
@@ -92,11 +85,7 @@ GROUP BY lan
 ORDER BY antal_beviljade DESC, lan
 FETCH FIRST 5 ROWS WITH TIES;
 
--- h. Andel distans och andel bundna utbildningar inom respektive utbildingsområde.
--- Check:
--- SELECT DISTINCT studieform
--- FROM ansokningsomgang25;
-
+-- h. Andel distans och andel bundna utbildningar inom respektive utbildingsområde
 SELECT
     utbildningsomrade,
     COUNT(*) AS totalt_antal,
