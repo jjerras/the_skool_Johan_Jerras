@@ -16,8 +16,6 @@
 - [Användning av LLM](#användning-av-llm)
 
 
-
-
 ## Data
 - Datan är hämtad från:
   https://www.myh.se/yrkeshogskolan/resultat-ansokningsomgangar/resultat-for-program
@@ -66,8 +64,16 @@ CREATE TABLE namn_mappning (
 ```
 
 ## Teknik
-- Oracle Database [version], SQLcl
-- Linux-VM, Git/GitHub, VS Code, Gitbash
+- Oracle AI Database 26ai Free (Release 23.26.3.0.0), SQLcl
+- Linux-VM, Git/GitHub, VS Code, Git bash
+
+## Kom igång
+SQL-skripten laddas i följande ordning:
+00_create_table.sql -> 01_load_csv.sql -> 01b_data_cleaning.sql
+-> 02_task1_eda.sql or 03_task3_my_analysis.sql
+
+## Projektstruktur
+![Projektets struktur](Screenshots/0_project_tree.png)
 
 ## Intervju med domänexpert
 En intervju hölls med en represtentant från The Skool tillsammans med andra kollegor
@@ -100,6 +106,7 @@ De frågor jag valt att undersöka är:
 2. Andel beviljade/avslag utifrån SUN5-område inom Data/IT.
 3. Andel beviljade utbildningar i procent utifrån antal sökta omgångar samt  Andel beviljade utbildningar i procent utifrån antal sökta omgångar inom "Data/IT". (Två olika tabeller).
 4. Andel beviljade utbildningar i procent utifrån län.
+
 Exempel på svaret på fråga 2 "Andel beviljade/avslag utifrån SUN5-område inom Data/IT".
 ![Andel beviljade utifrån SUN5](Screenshots/3_sun5_data.png)
 
@@ -116,14 +123,12 @@ Screenshots/1_name_changes.png
 - Under fråga "f" hade jag också i större utsträckning kunnat valt att slå ihop utbildningsanordnare med liknande namn och provade även den lösnigen men valde att inte göra det då frågan uttryckligen nämner "Administrativ enhet" och jag ville då inte att denna information skulle försvinna ur datan.
 - På fråga "g" fick jag först fram alternativet "Flera kommuner" som mest vanligt förekommande län, då jag inte visst säkert hur jag skulle hantera detta svaret valde jag att filtrera bort det i mitt querie. Jag la även till en "WITH TIES" för att försäkra mig om att det inte var fler län på samma antal som riskerade att falla bort i min tabell då jag valde de 5 första raderna.
 ```
-Fråga g: Exempeltabell - Antal beviljade utifrån län då jag rensat bort svaret "Flera län".
-
-![2_fraga_g](Screenshots/2_fraga_g.png)
-
 Alla ansökningar: Beviljade: 462	Avslag: 721	Totalt: 1184 (inkl. 1 återkallad)
 “Flera kommuner”: Beviljade: 103	Avslag: 192	Totalt: 295
 Ett enskilt län: Beviljade: 359	Avslag: 529	Totalt: 889 (inkl. 1 återkallad)
 ```
+Fråga g: Exempeltabell - Antal beviljade utifrån län då jag rensat bort svaret "Flera län":
+![2_fraga_g](Screenshots/2_fraga_g.png)
 
 ## Användning av LLM
 LLM har använts som bollplank, för att förklara vissa specifika moment och för att granska SQL-frågor samt som inspiration gällande innehåll i README och videopresentation.
