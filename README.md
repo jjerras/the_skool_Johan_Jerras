@@ -96,7 +96,7 @@ De skriftliga frågorna (a-i) från The Skool och tillhörande queries finns hä
 
 Fråga a: Exempeltabell - Ger en överblick över de olika utbildningsområdena.
 
-![2_fraga_a](Screenshots/2_fraga_a.png)
+![Fråga a:](Screenshots/2_question_a.png)
 
 
 De frågor jag själv utformat och tillhörande queries finns här:
@@ -128,7 +128,7 @@ Alla ansökningar: Beviljade: 462	Avslag: 721	Totalt: 1184 (inkl. 1 återkallad)
 Ett enskilt län: Beviljade: 359	Avslag: 529	Totalt: 889 (inkl. 1 återkallad)
 ```
 Fråga g: Exempeltabell - Antal beviljade utifrån län då jag rensat bort svaret "Flera län":
-![2_fraga_g](Screenshots/2_fraga_g.png)
+![Fråga g:](Screenshots/2_question_g.png)
 
 ## Användning av LLM
 LLM har använts som bollplank, för att förklara vissa specifika moment och för att granska SQL-frågor samt som inspiration gällande innehåll i README och videopresentation.
