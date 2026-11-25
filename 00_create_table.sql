@@ -1,3 +1,4 @@
+-- DROP TABLE IF EXISTS kräver Oracle 23ai eller senare. Om du använder en äldre version av Oracle, ta bort raden nedan och kör CREATE TABLE direkt.
 DROP TABLE IF EXISTS ansokningsomgang25;
 
 CREATE TABLE IF NOT EXISTS ansokningsomgang25 (

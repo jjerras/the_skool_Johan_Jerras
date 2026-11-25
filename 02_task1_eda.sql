@@ -1,6 +1,6 @@
 SET PAGESIZE 1500
 
-DESC system.ansokningsomgang25;
+DESC ansokningsomgang25;
 
 -- a. Antal ansökningar per utbildningsområde, sorterat på flest ansökningar.
 SELECT
@@ -88,13 +88,14 @@ FETCH FIRST 5 ROWS WITH TIES;
 -- h. Andel distans och andel bundna utbildningar inom respektive utbildingsområde
 SELECT
     utbildningsomrade,
-    COUNT(*) AS totalt_antal,
+    COUNT(*) AS totalt_antal_ansokningar,
     ROUND(100 * SUM(CASE WHEN studieform = 'Distans' THEN 1 ELSE 0 END) 
     / COUNT(*), 1) AS andel_distans_procent,
     ROUND(100 * SUM(CASE WHEN studieform = 'Bunden' THEN 1 ELSE 0 END) 
     / COUNT(*), 1) AS andel_bunden_procent
 FROM ansokningsomgang25
-GROUP BY utbildningsomrade;
+GROUP BY utbildningsomrade
+ORDER BY andel_distans_procent DESC;
 
 -- i. Antal utbildningar som innehåller ordet AI
 SELECT 

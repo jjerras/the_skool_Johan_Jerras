@@ -1,6 +1,6 @@
 SET PAGESIZE 1500
 
-DESC system.ansokningsomgang25;
+DESC ansokningsomgang25;
 
 -- 1.
 -- Lista beviljade utbildningar utanför utbildningsområdet 'Data/IT' som innehåller "Data/IT relaterade" ord
@@ -10,8 +10,8 @@ SELECT
     utbildningsnamn,
     beslut
 FROM ansokningsomgang25
-WHERE (REGEXP_LIKE(utbildningsnamn, '(^|[^[:alpha:]])(ai|it|digital|digitalt)([^[:alpha:]]|$)', 'i')
-OR REGEXP_LIKE(utbildningsnamn, '(^|[^[:alpha:]])(data|nätverk|programmering|databas)', 'i'))
+WHERE ((REGEXP_LIKE(utbildningsnamn, '(^|[^[:alpha:]])(ai|it|digital|digitalt)([^[:alpha:]]|$)', 'i')
+OR REGEXP_LIKE(utbildningsnamn, '(^|[^[:alpha:]])(data|nätverk|programmering|databas|cyber|cybersecurity|internet)', 'i')))
 AND beslut = 'Beviljad' AND utbildningsomrade != 'Data/IT'
 ORDER BY utbildningsomrade, utbildningsnamn, beslut;
 -- 2.
@@ -23,16 +23,16 @@ SELECT
     utbildningsnamn,
     beslut
 FROM ansokningsomgang25
-WHERE (REGEXP_LIKE(utbildningsnamn, '(^|[^[:alpha:]])(ai|it|digital|digitalt)([^[:alpha:]]|$)', 'i') -- Fristående ord, t.ex. "AI" eller "IT"
-OR REGEXP_LIKE(utbildningsnamn, '(^|[^[:alpha:]])(data|nätverk|programmering|databas)', 'i')) -- Prefix
+WHERE ((REGEXP_LIKE(utbildningsnamn, '(^|[^[:alpha:]])(ai|it|digital|digitalt)([^[:alpha:]]|$)', 'i') -- Fristående ord, t.ex. "AI" eller "IT"
+OR REGEXP_LIKE(utbildningsnamn, '(^|[^[:alpha:]])(data|nätverk|programmering|databas|cyber|cybersecurity|internet)', 'i'))) -- Prefix
 AND beslut = 'Avslag' AND utbildningsomrade != 'Data/IT'
 ORDER BY utbildningsomrade, utbildningsnamn, beslut;
 
 -- 3.
--- Andel beviljade/avslag utifrån SUN5-område inom Data/IT.
+-- Andel beviljade/avslag utifrån SUN5-område inom Data/IT, sorterat på totalt antal ansökningar.
 SELECT
     sun5_inriktning_namn,
-    COUNT(*) AS totalt_antal,
+    COUNT(*) AS totalt_antal_ansokningar,
     ROUND(100 * SUM(CASE WHEN beslut = 'Beviljad' THEN 1 ELSE 0 END) 
     / COUNT(*), 1) AS andel_beviljad_procent,
     ROUND(100 * SUM(CASE WHEN beslut = 'Avslag' THEN 1 ELSE 0 END) 
@@ -40,7 +40,7 @@ SELECT
 FROM ansokningsomgang25
 WHERE utbildningsomrade = 'Data/IT'
 GROUP BY sun5_inriktning_namn
-ORDER BY andel_beviljad_procent DESC;
+ORDER BY totalt_antal_ansokningar DESC;
 
 -- 4.
 -- Andel beviljade utbildningar i procent utifrån antal sökta omgångar.
@@ -66,15 +66,15 @@ GROUP BY sokta_omgangar
 ORDER BY sokta_omgangar;
 
 -- 6.
--- Andel beviljade utbildningar i procent utifrån län.
+-- Andel beviljade utbildningar i procent utifrån län, sorterat på antal ansökningar.
 SELECT
     lan,
-    COUNT(*) AS totalt_beslut,
+    COUNT(*) AS totalt_beslut_ansokningar,
     ROUND(100 * SUM(CASE WHEN beslut = 'Beviljad' THEN 1 ELSE 0 END) / COUNT(*), 1) AS andel_beviljade,
     ROUND(100 * SUM(CASE WHEN beslut = 'Avslag' THEN 1 ELSE 0 END) / COUNT(*), 1) AS andel_avslag
 FROM ansokningsomgang25
 GROUP BY lan
-ORDER BY andel_beviljade DESC;
+ORDER BY totalt_beslut_ansokningar DESC;
 
 
 EXIT
