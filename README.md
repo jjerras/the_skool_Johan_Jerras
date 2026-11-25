@@ -49,11 +49,7 @@ sun5_inriktning_namn = TRIM(REGEXP_REPLACE(sun5_inriktning_namn, '[[:space:]]+',
 bättre kontroll över datan och hur den presenteras.
 - Jag väljer att använda det unika "diarienummer" som Primary Key istället för 
 att skapa en ny då dessa redan har radspecifika värden.
-- Mina tabeller utifrån datan: 
-![Bearbetad tabell - 0_create_tables.sql]!![0_create_tables](Screenshots/0_create_tables.png)
-
-- Jag skapar även en extra "stödtabell" i "1b_data_cleaning.sql" där jag slår  samman vissa namn där stavning och liknande skilljer sig. Jag väljer att vara restriktiv med denna åtgärd för att inte påverka "rådatan" för mycket. Man skulle kunna välja att slå ihop flera liknande namn både under utbildningsnamn och utbildningsanordnare men då riskerar även information och nyanser ur "rådatan" att försvinna.
-  
+- Jag skapar även en extra "stödtabell" i "1b_data_cleaning.sql" där jag slår  samman vissa namn där stavning och liknande skilljer sig. Jag väljer att vara restriktiv med denna åtgärd för att inte påverka "rådatan" för mycket. Man skulle kunna välja att slå ihop flera liknande namn både under utbildningsnamn och utbildningsanordnare men då riskerar även information och nyanser ur "rådatan" att försvinna.  
 1b_data_cleaning.sql:
 ```sql
 -- Skapar en tabell för att mappa olika varianter av utbildningsnamn till ett kanoniskt namn.
@@ -62,6 +58,8 @@ CREATE TABLE namn_mappning (
     kanoniskt_namn  VARCHAR2(150) NOT NULL
 );
 ```
+![Bearbetad tabell](Screenshots/0_create_tables.png)
+![Namnändringstabell](Screenshots/1_name_changes.png)
 
 ## Teknik
 - Oracle AI Database 26ai Free (Release 23.26.3.0.0), SQLcl
