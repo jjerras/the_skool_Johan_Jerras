@@ -25,18 +25,18 @@ csv-fil, csv-filen exporteras till Linux genom scp.
 - Den bearbetade datafilen är: ansokningsomgang25.csv
 - Jag konverterar teckenkodningen (WINDOWS-1252 → UTF-8):
 ```bash 
-  iconv -f WINDOWS-1252 -t UTF-8 resultat-ansokningsomgang-2025.csv 
+iconv -f WINDOWS-1252 -t UTF-8 resultat-ansokningsomgang-2025.csv > resultat-ansokningsomgang-2025-utf8.csv
 ```
 - Jag tar bort de 6 första raderna som innehåller annat än data med:
 ```bash
-  tail -n +7 > ansokningsomgang25.csv 
+tail -n +7 resultat-ansokningsomgang-2025-utf8.csv > ansokningsomgang25.csv
 ```
 Före: ![Screenshots/1_clean_table.png](Screenshots/1_raw_table.png)
 Efter: ![Screenshots/1_clean_table.png](Screenshots/1_clean_table.png)
 
-- Jag använder filen 1_load_csv.sql för att ladda in min data i Oracle SQL.
-- I "1b_data_cleaning.sql" använder jag TRIM, REGEXP_LIKE och INSTR för att ta bort  
+- Jag använder filen 01_load_csv.sql för att ladda in min data i Oracle SQL. Här använder jag även använder jag TRIM, REGEXP_LIKE och INSTR för att ta bort  
 extra blanksteg samt eventuella hårda mellanslag.
+- I 01b_data_cleaning.sql använder jag TRIM och REGEXP_REPLACE och skapar sedan en tabell för att mappa olika varianter av utbildningsnamn till ett kanoniskt namn. På så sätt behöver jag inte ändra datan men kan ändå samla olika varianter och stavningar under ett namn.
 ```sql
 utbildningsnamn      = TRIM(REGEXP_REPLACE(utbildningsnamn,      '[[:space:]]+', ' ')),
 utbildningsanordnare = TRIM(REGEXP_REPLACE(utbildningsanordnare, '[[:space:]]+', ' ')),
@@ -45,12 +45,12 @@ sun5_inriktning_namn = TRIM(REGEXP_REPLACE(sun5_inriktning_namn, '[[:space:]]+',
 ![01_load_csv.sql](Screenshots/1_load_cvs.png)
 
 ## Tabell
-- Jag väljer att skapa mina egna tabeller i "0_create_tables.sql" för att ha    
+- Jag väljer att skapa mina egna tabeller i "00_create_table.sql" för att ha    
 bättre kontroll över datan och hur den presenteras.
 - Jag väljer att använda det unika "diarienummer" som Primary Key istället för 
 att skapa en ny då dessa redan har radspecifika värden.
-- Jag skapar även en extra "stödtabell" i "1b_data_cleaning.sql" där jag slår  samman vissa namn där stavning och liknande skilljer sig. Jag väljer att vara restriktiv med denna åtgärd för att inte påverka "rådatan" för mycket. Man skulle kunna välja att slå ihop flera liknande namn både under utbildningsnamn och utbildningsanordnare men då riskerar även information och nyanser ur "rådatan" att försvinna.  
-1b_data_cleaning.sql:
+- Jag skapar även en extra "stödtabell" i 01b_data_cleaning.sql där jag slår  samman vissa namn där stavning och liknande skiljer sig. Jag väljer att vara restriktiv med denna åtgärd för att inte påverka "rådatan" för mycket. Man skulle kunna välja att slå ihop flera liknande namn både under utbildningsnamn och utbildningsanordnare men då riskerar även information och nyanser ur "rådatan" att försvinna.  
+01b_data_cleaning.sql:
 ```sql
 -- Skapar en tabell för att mappa olika varianter av utbildningsnamn till ett kanoniskt namn.
 CREATE TABLE namn_mappning (
@@ -74,14 +74,14 @@ SQL-skripten laddas i följande ordning:
 ![Projektets struktur](Screenshots/0_project_tree.png)
 
 ## Intervju med domänexpert
-En intervju hölls med en represtentant från The Skool tillsammans med andra kollegor
+En intervju hölls med en representant från The Skool tillsammans med andra kollegor
 där vi kunde ställa frågor om deras intressen utifrån datan.
 
 Några intressanta observationer från intervjun:
 - The Skool uttryckte ett intresse för samtliga utbildningsområden och geografiska platser men då datan är omfattande så valde jag trots detta att främst fokusera på utbildningar inom "Data/IT" men med ett brett geografiskt perspektiv.
-- Det uttyrcktes ett intressa att jämföra Beviljandegraden utifrån antal sökta omgångar exempelvis.
+- Det uttrycktes ett intressa att jämföra Beviljandegraden utifrån antal sökta omgångar exempelvis.
 - Det uttrycktes även ett intresse för att undersöka eventuella skillnader inom SUN5-inriktning.
-- The Skool uppgav att man inte var begränsde av: geografisk plats, utbildningsområde, utbildningsform eller examenstyp.
+- The Skool uppgav att man inte var begränsade av: geografisk plats, utbildningsområde, utbildningsform eller examenstyp.
 
 ## Utformning av SQL-queries
 Utformningen av de analyser av datan som utförs bygger på skriftliga instruktioner från "The Skool" samt den intervju som skedde med "stakeholder/domänexpert" (2026-10-21).
@@ -90,7 +90,7 @@ Jag har valt att fokusera extra på två områden:
 - Undersökning av beviljandegrad beroende på antal sökta omgångar samt utifrån län.
 
 De skriftliga frågorna (a-i) från The Skool och tillhörande queries finns här:
-"02_uppgift1_eda.sql"
+"02_task1_eda.sql"
 
 Fråga a: Exempeltabell - Ger en överblick över de olika utbildningsområdena.
 
@@ -98,7 +98,7 @@ Fråga a: Exempeltabell - Ger en överblick över de olika utbildningsområdena.
 
 
 De frågor jag själv utformat och tillhörande queries finns här:
-"03_uppgift3_egna_fragor.sql"
+"03_task3_my_analysis.sql"
 De frågor jag valt att undersöka är:
 1. Beviljade respektiva avslagna utbildningar utanför utbildningsområdet 'Data/IT' som innehåller "Data/IT relaterade" ord, listade efter utbildningsområde. (Två olika tabeller).
 2. Andel beviljade/avslag utifrån SUN5-område inom Data/IT.
@@ -118,14 +118,14 @@ Under arbetet har jag varit tvungen att göra vissa begränsningar och antagande
 ![Namnändringar](Screenshots/1_name_changes.png)
 
 - På fråga "f" hade jag lite svårt att veta vad som efterfrågades; "Utbildningsanordnare" OCH "Utbildningsnamn" i en tabell eller i två separata tabeller. Det slutade med att jag gjorde alla tre alternativen.
-- Under fråga "f" hade jag också i större utsträckning kunnat valt att slå ihop utbildningsanordnare med liknande namn och provade även den lösnigen men valde att inte göra det då frågan uttryckligen nämner "Administrativ enhet" och jag ville då inte att denna information skulle försvinna ur datan.
+- Under fråga "f" hade jag också i större utsträckning kunnat valt att slå ihop utbildningsanordnare med liknande namn och provade även den lösningen men valde att inte göra det då frågan uttryckligen nämner "Administrativ enhet" och jag ville då inte att denna information skulle försvinna ur datan.
 - På fråga "g" fick jag först fram alternativet "Flera kommuner" som mest vanligt förekommande län, då jag inte visst säkert hur jag skulle hantera detta svaret valde jag att filtrera bort det i mitt querie. Jag la även till en "WITH TIES" för att försäkra mig om att det inte var fler län på samma antal som riskerade att falla bort i min tabell då jag valde de 5 första raderna.
 ```
 Alla ansökningar: Beviljade: 462	Avslag: 721	Totalt: 1184 (inkl. 1 återkallad)
 “Flera kommuner”: Beviljade: 103	Avslag: 192	Totalt: 295
-Ett enskilt län:  Beviljade: 359    Avslag: 529   Totalt: 889 (inkl. 1 återkallad)
+Ett enskilt län:  Beviljade: 359      Avslag: 529     Totalt: 889 (inkl. 1 återkallad)
 ```
-Fråga g: Exempeltabell - Antal beviljade utifrån län då jag rensat bort svaret "Flera län":
+Fråga g: Exempeltabell - Antal beviljade utifrån län då jag rensat bort svaret "Flera kommuner":
 
 ![Fråga g:](Screenshots/2_question_g.png)
 
