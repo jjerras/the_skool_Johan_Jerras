@@ -130,7 +130,7 @@ Fråga g: Exempeltabell - Antal beviljade utifrån län då jag rensat bort svar
 ![Fråga g:](Screenshots/2_question_g.png)
 
 ## Användning av LLM
-LLM har använts som bollplank, för att förklara vissa specifika moment och för att granska SQL-frågor samt som inspiration gällande innehåll i README och videopresentation.
+LLM har använts som bollplank, för att förklara vissa specifika moment och för att granska SQL-frågor samt som inspiration gällande innehåll i README och videopresentation samt utformning av PowerPoint-presentation.
 Jag har gått igenom och förstår all kod, jag har skrivit den absoluta majoriteten av koden själv men vissa delar kan vara tagna från andra omarbetade exempel och i vissa undantagsfall har jag använt VS Code's IntelliSense funktion för att slutföra de delar av koden som varit mer repetitiv.
 Upplägget för rensningen (mappningstabell med COALESCE) och fönsterfunktionen föreslogs av LLM i dialog med mig där ett exempel presenterades för mig som jag sedan omsatte till mitt arbete.
 
