@@ -123,7 +123,7 @@ Under arbetet har jag varit tvungen att göra vissa begränsningar och antagande
 ```
 Alla ansökningar: Beviljade: 462	Avslag: 721	Totalt: 1184 (inkl. 1 återkallad)
 “Flera kommuner”: Beviljade: 103	Avslag: 192	Totalt: 295
-Ett enskilt län:  Beviljade: 359  Avslag: 529 Totalt: 889 (inkl. 1 återkallad)
+Ett enskilt län:  Beviljade: 359    Avslag: 529   Totalt: 889 (inkl. 1 återkallad)
 ```
 Fråga g: Exempeltabell - Antal beviljade utifrån län då jag rensat bort svaret "Flera län":
 
