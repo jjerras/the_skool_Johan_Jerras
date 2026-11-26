@@ -68,7 +68,7 @@ CREATE TABLE namn_mappning (
 ## Kom igång
 SQL-skripten laddas i följande ordning:
 00_create_table.sql -> 01_load_csv.sql -> 01b_data_cleaning.sql
--> 02_task1_eda.sql or 03_task3_my_analysis.sql
+-> 02_task1_eda.sql eller 03_task3_my_analysis.sql
 
 ## Projektstruktur
 ![Projektets struktur](Screenshots/0_project_tree.png)
@@ -123,9 +123,10 @@ Under arbetet har jag varit tvungen att göra vissa begränsningar och antagande
 ```
 Alla ansökningar: Beviljade: 462	Avslag: 721	Totalt: 1184 (inkl. 1 återkallad)
 “Flera kommuner”: Beviljade: 103	Avslag: 192	Totalt: 295
-Ett enskilt län: Beviljade: 359   Avslag: 529 Totalt: 889 (inkl. 1 återkallad)
+Ett enskilt län:  Beviljade: 359  Avslag: 529 Totalt: 889 (inkl. 1 återkallad)
 ```
 Fråga g: Exempeltabell - Antal beviljade utifrån län då jag rensat bort svaret "Flera län":
+
 ![Fråga g:](Screenshots/2_question_g.png)
 
 ## Användning av LLM
